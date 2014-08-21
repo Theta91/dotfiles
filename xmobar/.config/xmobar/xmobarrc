@@ -21,6 +21,6 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
                     , Run StdinReader
                     ]
        , sepChar = "%"
-       , alignSep = "} {"
-       , template = "%StdinReader% } { %disku% <fc=#a57ac4>|</fc> %wlo1wi% <fc=#a57ac4>|</fc> %battery% <fc=#a57ac4>|</fc> %gmail% <fc=#a57ac4>|</fc> %thermal0% <fc=#a57ac4>|</fc> %multicpu% <fc=#a57ac4>|</fc> %memory% <fc=#a57ac4>|</fc> <fc=#ffe161>%date%</fc> <fc=#a57ac4>|</fc> %KRIC% <fc=#a57ac4>|</fc> %locks%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %disku% <fc=#a57ac4>|</fc> %wlo1wi% <fc=#a57ac4>|</fc> %battery% <fc=#a57ac4>|</fc> %gmail% <fc=#a57ac4>|</fc> %thermal0% <fc=#a57ac4>|</fc> %multicpu% <fc=#a57ac4>|</fc> %memory% <fc=#a57ac4>|</fc> <fc=#ffe161>%date%</fc> <fc=#a57ac4>|</fc> %KRIC% <fc=#a57ac4>|</fc> %locks%"
        }
