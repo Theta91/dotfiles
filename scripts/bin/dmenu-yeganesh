@@ -1,0 +1,3 @@
+#!/bin/sh
+
+yeganesh -x -- -h 28 -fn "Source Code Pro-10" -nb "#161616" -nf "#ffffff"

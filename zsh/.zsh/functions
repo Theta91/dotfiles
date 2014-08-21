@@ -1,0 +1,24 @@
+# ------------------------------------------------------------------------------
+#  Quick editing of config files
+# ------------------------------------------------------------------------------
+confedit() {
+  case $1 in
+    xmobar)     vim ~/.config/xmobar/xmobarrc ;;
+    xmonad)     vim ~/.xmonad/xmonad.hs ;;
+    xresources) vim ~/.Xresources && xrdb -merge ~/.Xresources ;;
+    zsh)        vim ~/.zshrc && source ~/.zshrc ;;
+    *)          ;;
+  esac
+}
+# ------------------------------------------------------------------------------
+#  Pressing C-a increments the last number on the command line by 1. Useful for
+#  watching episodes. From: http://chneukirchen.org/blog/
+# ------------------------------------------------------------------------------
+_increase_number() {
+  local -a match mbegin mend
+  [[ $LBUFFER =~ '([0-9]+)[^0-9]*$' ]] &&
+    LBUFFER[mbegin,mend]=$(printf %0${#match[1]}d $((10#$match+${NUMERIC:-1})))
+}
+zle -N increase-number _increase_number
+bindkey '^Xa' increase-number
+bindkey -s '^Xx' '^[-^Xa'

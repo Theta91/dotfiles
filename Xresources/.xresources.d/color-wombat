@@ -1,0 +1,29 @@
+! wombat color scheme
+*.background:  #161616
+*.foreground:  #ffffff
+*.cursorColor: #ffffff
+
+! Black
+*.color0:  #161616
+*.color8:  #857B6F
+! Red
+*.color1:  #e5786d
+*.color9:  #9d2a3a
+! Green
+*.color2:  #cae682
+*.color10: #8bbe34
+! Brown/Yellow
+*.color3:  #ffe161
+*.color11: #ffc442
+! Blue
+*.color4:  #5283d7
+*.color12: #3b5d9a
+! Magenta
+*.color5:  #b698d9
+*.color13: #a57ac4
+! Cyan
+*.color6:  #a8c6f2
+*.color14: #5da7e1
+! White
+*.color7:  #f6f3e8
+*.color15: #d3d7cf

@@ -1,0 +1,45 @@
+! ------------------------------------------------------------------------------
+!                             URxvt Configuration
+! ------------------------------------------------------------------------------
+
+! Fonts
+URxvt*font:            xft:Source Code Pro-Regular:size=10:antialias=true
+URxvt*boldFont:        xft:Source Code Pro-Bold:size=10:antialias=true
+URxvt*intensityStyles: true
+
+! Turn off scrollbar
+URxvt*scrollBar: false
+
+! Do not scroll on new output; do scroll if typing
+URxvt*scrollTtyOutput:   false
+URxvt*scrollWithBuffer:  false
+URxvt*scrollTtyKeypress: true
+
+! Lines saved per instance
+URxvt*saveLines: 512
+
+! Cursor
+URxvt*cursorBlink:     false
+URxvt*cursorUnderline: true
+
+! Pointer
+URxvt*pointerBlank:      true
+URxvt*pointerBlankDelay: 5
+
+! URL clicky
+URxvt*perl-ext-common: default,matcher
+URxvt*url-launcher:    /usr/bin/xdg-open
+URxvt*matcher*button:  1
+
+!-------------------------------------------------------------------------------
+! Specifies the terminal type name to be set in the TERM environment variable; option -tn.
+! URxvt*termName: termname
+
+! If set, use the specified colour as the colour for the underline itself. If unset, use the foreground colour.
+! URxvt*underlineColor: colour
+
+! Fade the text by the given percentage when focus is lost; option -fade.
+! URxvt*fading: number
+
+! Fade to this colour, when fading is used (see fading:). The default colour is black; option -fadecolor.
+! URxvt*fadeColor: colour
