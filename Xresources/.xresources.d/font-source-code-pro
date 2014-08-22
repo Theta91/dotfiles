@@ -1,0 +1,4 @@
+! Font configuration for URxvt
+URxvt*font:            xft:Source Code Pro-Regular:size=10:antialias=true
+URxvt*boldFont:        xft:Source Code Pro-Bold:size=10:antialias=true
+URxvt*intensityStyles: true

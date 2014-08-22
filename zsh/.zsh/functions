@@ -11,6 +11,19 @@ confedit() {
   esac
 }
 # ------------------------------------------------------------------------------
+#  Quickly grab PKGBUILD/etc. from AUR and switch to dir.
+# ------------------------------------------------------------------------------
+aurg() {
+  wget -qO- https://aur.archlinux.org/packages/${1:0:2}/${1}/${1}.tar.gz | tar xvz -C ~/aur/
+  cd ~/aur/${1}
+}
+# ------------------------------------------------------------------------------
+#  Colored less
+# ------------------------------------------------------------------------------
+pretty() {
+  pygmentize -f terminal $* | less -R
+}
+# ------------------------------------------------------------------------------
 #  Pressing C-a increments the last number on the command line by 1. Useful for
 #  watching episodes. From: http://chneukirchen.org/blog/
 # ------------------------------------------------------------------------------

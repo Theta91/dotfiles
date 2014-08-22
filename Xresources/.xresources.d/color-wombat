@@ -5,7 +5,7 @@
 
 ! Black
 *.color0:  #161616
-*.color8:  #857B6F
+*.color8:  #857b6f
 ! Red
 *.color1:  #e5786d
 *.color9:  #9d2a3a

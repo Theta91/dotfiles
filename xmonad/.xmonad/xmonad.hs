@@ -13,14 +13,14 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.UrgencyHook
 -- Layout.*
-import XMonad.Layout.NoBorders
+import XMonad.Layout.NoBorders (smartBorders)
 -- System.*
 import System.Exit
 import System.IO
 -- Util.*
 import XMonad.Util.EZConfig (mkKeymap)
-import XMonad.Util.Paste
-import XMonad.Util.Run (spawnPipe, safeSpawn, safeSpawnProg)
+import XMonad.Util.Run (spawnPipe, safeSpawn)
+import XMonad.Util.Scratchpad
 
 main :: IO ()
 main = xmonad =<< statusBar bar pp togstr conf
@@ -51,6 +51,7 @@ _PP = defaultPP { ppCurrent         = xmobarColor "#5283d7" "" . wrap "<" ">"
                 , ppHiddenNoWindows = xmobarColor "#161616" ""
                 , ppUrgent          = xmobarColor "#b698d9" "" . wrap "[" "]"
                 , ppSep             = xmobarColor "#ffc442" "" " : "
+                , ppSort            = fmap (.scratchpadFilterOutWorkspace) $ ppSort defaultPP
                 , ppTitle           = xmobarColor "#ffc442" "" . shorten 60
                 , ppLayout          = xmobarColor "#ffc442" ""
                 , ppOrder           = \(ws:_:t:_) -> [ws,t]
@@ -65,8 +66,15 @@ _ManageHook = composeAll [ isFullscreen           --> doFullFloat
                          , className =? "Gimp"    --> doFloat
                          --, className =? "Firefox" --> doF (W.shift (_Workspaces !! 1))
                          --, className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
-                         ]
+                         ] <+> _ScratchPad
 
+_ScratchPad :: ManageHook
+_ScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+              where
+                  h = 0.4
+                  w = 0.4    -- width/height, 30%
+                  t = 1 - h
+                  l = 1 - w  -- place in lower right
 -- %% Vars
 _ModMask    = mod4Mask
 _Terminal   = "urxvtc"
@@ -75,20 +83,22 @@ _Workspaces = ["1 terms", "2 web"] ++ map show [3..9]
 -- %% Keybindings
 _Keys c = mkKeymap c $
       -- launch/kill programs
-      [ ("M-<Return>"   , safeSpawnProg $ XMonad.terminal c)
+      [ ("M-<Return>"   , safeSpawn (XMonad.terminal c) [] )
+      , ("M-<Space>"    , scratchpadSpawnActionTerminal _Terminal)
       , ("M-d"          , spawn "i=$(dmenu-yeganesh) && exec $i")
       , ("M-S-d"        , spawn "gmrun")
       , ("M-S-c"        , kill)
 
-      , ("M-<Space>"    , sendMessage NextLayout)
+      , ("M-C-<Space>"    , sendMessage NextLayout)
       , ("M-S-<Space>"  , setLayout $ XMonad.layoutHook c)
 
       , ("M-n"          , refresh)
 
       -- personal launch codes
       , ("M-S-w"        , safeSpawn "chromium" ["--incognito"])
-      , ("<Insert>"     , spawn "scrot '%Y.%m.%d.%H-%M-%S_$wx$h.png' -e 'mv ~/$f ~/images/'")
-      , ("C-<Insert>"   , spawn "scrot -s '%Y.%m.%d.%H-%M-%S_$wx$h.png' -e 'mv ~/$f ~/images/'")
+      , ("<Insert>"     , safeSpawn "screenshot" [])
+      , ("C-<Insert>"   , safeSpawn "screenshot" ["-s"])
+      -- todo: get iocane working and change this
       , ("<Print>"      , spawn "xdotool click 2")
 
       -- move focus

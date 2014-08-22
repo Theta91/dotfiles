@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# This script manages some commonly run (for me) dtach sessions). It changes
+# the detach command to C-S-t (hence the tput smkx; tput rmkx sandwich), and
+# either launches or attaches to:
+#   (a) rtorrent+PyroScope
+#   (b) irssi
+#   (c) dzen statusbar
+
 if [[ $# -ne 1 ]]
 then
   echo "No arguments supplied."

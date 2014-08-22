@@ -3,7 +3,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 # Colored coreutils
-alias ls='ls -Ah --color=auto'
+alias ls='ls -AGFh --color=auto'
 alias grep='grep --color=auto'
 
 # Misc. re-aliased stuff
@@ -11,10 +11,16 @@ alias cat='cat -v'
 alias mkdir='mkdir -p'
 alias pacman='sudo pacman'
 alias wget='wget -c'
+alias dirs='dirs -v'
 
 # Shortcuts for common commands
 alias c='clear'
 alias x='exit'
-alias lsg='ls -Ah --color=auto | grep --color=auto -i'
+alias ll='ls -AGFhl --color=auto'
+alias lsg='ls -AGFh --color=auto | grep --color=auto -i'
 alias copy='xsel -ib'
 alias pacu='sudo pacman -U'
+alias ext='aunpack'
+alias duh='du -h | sort -hr | less'
+alias duhs='du -hs | sort -hr | less'
+alias mkpkg='makepkg -cs'
