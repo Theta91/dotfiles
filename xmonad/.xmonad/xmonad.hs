@@ -85,33 +85,35 @@ _Keys c = mkKeymap c $
       -- launch/kill programs
       [ ("M-<Return>"   , safeSpawn (XMonad.terminal c) [] )
       , ("M-<Space>"    , scratchpadSpawnActionTerminal _Terminal)
-      , ("M-d"          , spawn "i=$(dmenu-yeganesh) && exec $i")
-      , ("M-S-d"        , spawn "gmrun")
+      , ("M-d"          , safeSpawn "dmenu-yeganesh" [])
+      , ("M-S-d"        , safeSpawn "gmrun" [])
       , ("M-S-c"        , kill)
 
-      , ("M-C-<Space>"    , sendMessage NextLayout)
+      , ("M-C-<Space>"  , sendMessage NextLayout)
       , ("M-S-<Space>"  , setLayout $ XMonad.layoutHook c)
 
       , ("M-n"          , refresh)
 
+      -- multimedia keys
+      , ("<XF86MonBrightnessUp>",   safeSpawn "xbacklight" ["+20"])
+      , ("<XF86MonBrightnessDown>", safeSpawn "xbacklight" ["-20"])
       -- personal launch codes
       , ("M-S-w"        , safeSpawn "chromium" ["--incognito"])
       , ("<Insert>"     , safeSpawn "screenshot" [])
       , ("C-<Insert>"   , safeSpawn "screenshot" ["-s"])
-      -- todo: get iocane working and change this
-      , ("<Print>"      , spawn "xdotool click 2")
+      , ("<Print>"      , spawn "iocane -c 'b 2'")
 
       -- move focus
       , ("M-Tab"        , windows W.focusDown)
-      , ("M-S-Tab"      , windows W.focusUp  )
+      , ("M-S-Tab"      , windows W.focusUp)
       , ("M-j"          , windows W.focusDown)
-      , ("M-k"          , windows W.focusUp  )
-      , ("M-m"          , windows W.focusMaster  )
+      , ("M-k"          , windows W.focusUp)
+      , ("M-m"          , windows W.focusMaster)
 
       -- modify the window order
       , ("M-S-<Return>" , windows W.swapMaster)
-      , ("M-S-j"        , windows W.swapDown  )
-      , ("M-S-k"        , windows W.swapUp    )
+      , ("M-S-j"        , windows W.swapDown)
+      , ("M-S-k"        , windows W.swapUp)
 
       -- adjust master/slave ratio
       , ("M-h"          , sendMessage Shrink)

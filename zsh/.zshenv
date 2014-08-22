@@ -1,6 +1,3 @@
-typeset -U path
-path=(~/bin ~/.cabal/bin $path)
-
 export SUDO_EDITOR=rvim
 
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd -Dswing.aatext=true'
