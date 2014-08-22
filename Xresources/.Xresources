@@ -1,6 +1,7 @@
 ! ~/.Xresources 
 
 #include ".xresources.d/color-wombat"
+#include ".xresources.d/font-source-code-pro"
 #include ".xresources.d/urxvt"
 
 ! For use with infinality
