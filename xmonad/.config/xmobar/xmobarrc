@@ -16,7 +16,7 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
                                             ,"-L","20","--low","red"] 10
                     , Run Date "%a, %b %_d '%y – %H:%M:%S" "date" 10
                     , Run Weather "KRIC"    ["-t","<fc=#a57ac4><skyCondition></fc> <tempF>°F","-L","60","-H","80"
-                                            ,"--normal","#cae682","--high","#e5786d","--low","a8c6f2"] 7200
+                                            ,"--normal","#cae682","--high","#e5786d","--low","#a8c6f2"] 7200
                     , Run Locks
                     , Run StdinReader
                     ]
