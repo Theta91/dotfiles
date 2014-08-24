@@ -1,2 +1,2 @@
-/home/voighta/dotfiles/uncolorized/xmobarrc=/home/voighta/dotfiles/xmonad/.config/xmobar/xmobarrc
-/home/voighta/dotfiles/uncolorized/xmonad.hs=/home/voighta/dotfiles/xmonad/.xmonad/xmonad.hs
+xmobarrc=/home/voighta/dotfiles/xmonad/.config/xmobar/xmobarrc
+xmonad.hs=/home/voighta/dotfiles/xmonad/.xmonad/xmonad.hs

@@ -1,17 +1,10 @@
 #! /usr/bin/env python3.4
 
-import csv
-import fileinput
+import getopt
 import os
 import re
-import shutil
 import subprocess
 import sys
-
-#print("""\
-#Usage: colors.py [OPTIONS]
-#       -h                        Display this usage message
-#""")
 
 def retrieveColors():
     xrdb = subprocess.check_output(['xrdb', '-query']).decode('utf-8')
@@ -29,11 +22,11 @@ def retrieveFilePaths():
     with open(sys.argv[1]) as f:
         parentDir, whoCares = os.path.split(sys.argv[1])
         fileList = dict(x.strip().split('=', 1) for x in f if x.strip())
-        source = []
-        dest = []
-        for k, v in fileList.items():
-            source.append(os.path.join(parentDir, k))
-            dest.append(v)
+    source = []
+    dest = []
+    for k, v in fileList.items():
+        source.append(os.path.join(parentDir, k))
+        dest.append(v)
 
     return source, dest
 
@@ -58,11 +51,30 @@ def colorSubstitution(colors, contents):
     contents = contents.replace('$bwhite', colors['color15'])
     return contents
 
-colors = retrieveColors()
-source, dest = retrieveFilePaths()
-for i in range(len(source)):
-    with open(source[i], 'r') as f:
-        sourceContents = f.read()
-    destContents = colorSubstitution(colors, sourceContents)
-    with open(dest[i], 'w') as f:
-        f.write(destContents)
+if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+    print('''\
+Usage: colors.py /path/to/paths.txt
+    This script is intended to colorize a config file that has uncolorized
+    placeholders. It needs to be supplied with the full path of a file that
+    contains pairs of filenames and their full, final path, for example:
+    xmonad.hs=/home/user/.xmonad/xmonad.hs
+    The uncolorized files must be in the same directory as the paths file.
+
+    This script supports your standard 16 ANSI colors; bright colors are
+    prefixed with 'b'. Complete listing of supported values:
+    $fg $bg
+    $black $red $green $yellow $blue $magenta $cyan $white
+    $bblack $bred $bgreen $byellow $bblue $bmagenta $bcyan $bwhite\
+''')
+    sys.exit(0)
+else:
+    colors = retrieveColors()
+    source, dest = retrieveFilePaths()
+    for i in range(len(source)):
+        with open(source[i], 'r') as f:
+            sourceContents = f.read()
+        destContents = colorSubstitution(colors, sourceContents)
+        with open(dest[i], 'w') as f:
+            f.write(destContents)
+
+    sys.exit(0)
