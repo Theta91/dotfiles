@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+# This script provides the options I wish to call scrot with; it normally takes
+# a fullscreen screenshot, but passing -s will let it take a screenshot of
+# either a window you've clicked or a rectangular area you've drawn.
+#
+# A few other things are possible; see man scrot.
+
+sleep 0.1s; scrot -m "$@" '%Y.%m.%d_%H%M%S_$wx$h.png' -e 'mv $f ~/images/screens/'

@@ -99,8 +99,8 @@ _Keys c = mkKeymap c $
       , ("<XF86MonBrightnessDown>", safeSpawn "xbacklight" ["-20"])
       -- personal launch codes
       , ("M-S-w"        , safeSpawn "chromium" ["--incognito"])
-      , ("<Insert>"     , safeSpawn "screenshot" [])
-      , ("C-<Insert>"   , safeSpawn "screenshot" ["-s"])
+      , ("<Insert>"     , safeSpawn "scrotshot" [])
+      , ("C-<Insert>"   , safeSpawn "scrotshot" ["-s"])
       , ("<Print>"      , spawn "iocane -c 'b 2'")
 
       -- move focus

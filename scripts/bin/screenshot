@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# This script takes a fullscreen screenshot unless supplied with -s, in which
-# case it takes a screenshot of either a window you've clicked or a rectangular
-# area you've drawn.
-#
-# Other things are possible; see man scrot
-
-sleep 0.2; scrot -m ${1} '%Y.%m.%d_%H%M%S_$wx$h.png' -e 'mv $f ~/images/screens/'

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# This script calls yeganesh with some pre-defined options.
+
+exec $(yeganesh -x -- -h 28 -fn "Source Code Pro-10" -nb "$bg" -nf "$fg")

@@ -24,6 +24,12 @@ pretty() {
   pygmentize -f terminal $* | less -R
 }
 # ------------------------------------------------------------------------------
+#  mkdir + cd into last created dir
+# ------------------------------------------------------------------------------
+mkcd() {
+  mkdir -p "$@" && cd $_
+}
+# ------------------------------------------------------------------------------
 #  Pressing C-a increments the last number on the command line by 1. Useful for
 #  watching episodes. From: http://chneukirchen.org/blog/
 # ------------------------------------------------------------------------------

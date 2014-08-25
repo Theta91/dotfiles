@@ -1,6 +1,21 @@
-#! /usr/bin/env python3.4
+#!/usr/bin/env python3
 
-import getopt
+"""This script colorizes a config file with uncolorized placeholders based on the
+result of 'xrdb -query'. It requires a file (in this example, 'paths.txt') with
+pairs of filenames and the full path of where they should should be placed,
+separated by an '='. For example:
+    xmonad.hs=/home/user/.xmonad/xmonad.hs
+The uncolorized files must be in the same directory as 'paths.txt'.
+
+This scripts assumes that you've set your colors as '*color0: #a-f0-9', i.e.
+lowercase. It supports the standard 16 ANSI colors; bright colors are prefixed
+with 'b'. Complete list of values available for substitution:
+    $fg $bg
+    $black $red $green $yellow $blue $magenta $cyan $white
+    $bblack $bred $bgreen $byellow $bblue $bmagenta $bcyan $bwhite
+"""
+
+import argparse
 import os
 import re
 import subprocess
@@ -51,23 +66,10 @@ def colorSubstitution(colors, contents):
     contents = contents.replace('$bwhite', colors['color15'])
     return contents
 
-if sys.argv[1] == "-h" or sys.argv[1] == "--help":
-    print('''\
-Usage: colors.py /path/to/paths.txt
-    This script is intended to colorize a config file that has uncolorized
-    placeholders. It needs to be supplied with the full path of a file that
-    contains pairs of filenames and their full, final path, for example:
-    xmonad.hs=/home/user/.xmonad/xmonad.hs
-    The uncolorized files must be in the same directory as the paths file.
-
-    This script supports your standard 16 ANSI colors; bright colors are
-    prefixed with 'b'. Complete listing of supported values:
-    $fg $bg
-    $black $red $green $yellow $blue $magenta $cyan $white
-    $bblack $bred $bgreen $byellow $bblue $bmagenta $bcyan $bwhite\
-''')
-    sys.exit(0)
-else:
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('/path/to/paths.txt')
+    args = parser.parse_args()
     colors = retrieveColors()
     source, dest = retrieveFilePaths()
     for i in range(len(source)):

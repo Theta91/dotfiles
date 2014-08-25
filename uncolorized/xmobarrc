@@ -22,5 +22,5 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %disku% <fc=$bmagenta>|</fc> %wlo1wi% <fc=$bmagenta>|</fc> %battery% <fc=$bmagenta>|</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/>%gmail% <fc=$bmagenta>|</fc> %thermal0% <fc=$bmagenta>|</fc> %multicpu% <fc=$bmagenta>|</fc> %memory% <fc=$bmagenta>|</fc> <fc=#ffe161>%date%</fc> <fc=$bmagenta>|</fc> %KRIC% <fc=$bmagenta>|</fc> %locks%"
+       , template = "%StdinReader% }{ %disku% <fc=$bmagenta>|</fc> %wlo1wi% <fc=$bmagenta>|</fc> %battery% <fc=$bmagenta>|</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> %gmail% <fc=$bmagenta>|</fc> %thermal0% <fc=$bmagenta>|</fc> %multicpu% <fc=$bmagenta>|</fc> %memory% <fc=$bmagenta>|</fc> <fc=#ffe161>%date%</fc> <fc=$bmagenta>|</fc> %KRIC% <fc=$bmagenta>|</fc> %locks%"
        }

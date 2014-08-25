@@ -1,2 +1,3 @@
 xmobarrc=/home/voighta/dotfiles/xmonad/.config/xmobar/xmobarrc
 xmonad.hs=/home/voighta/dotfiles/xmonad/.xmonad/xmonad.hs
+dmenu-yeganesh=/home/voighta/dotfiles/scripts/bin/dmenu-yeganesh

@@ -23,7 +23,7 @@ urxvtd -q -o -f
 
 dropbox start &
 
-$HOME/bin/wallpaper.sh &
+$HOME/bin/set-wallpaper &
 
 syndaemon -t -k -i 2 -d &
 redshift -l 37.5486691564197:-77.4678126287814 -t 5500:3700 &

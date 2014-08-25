@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# This script sets/rotates my wallpaper. It requires bgs:
+# https://github.com/Gottox/bgs
+
+while true; do
+    for file in ~/Dropbox/Public/pics/wallpaper/{01.1,02.1,08.1,09.1,10.1,11.1}.png; do
+        bgs "$file"
+        sleep 10m
+    done
+done
