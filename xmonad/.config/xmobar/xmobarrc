@@ -4,7 +4,7 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
        , position = Static { xpos = 0, ypos = 0, width = 1920, height = 28 }
        , lowerOnStart = True
        , commands = [ Run DiskU             [("/", "/ – <fc=#5da7e1><free></fc>"), ("/home", "/home - <fc=#5da7e1><free></fc>")] [] 10
-                    , Run Wireless "wlo1"   ["-t", "wlo1: <fc=#5da7e1><essid></fc>"] 20
+                    , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=#5da7e1><essid></fc>"] 20
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus>","--"
                                             ,"-O", "<fc=#cae682>Charging</fc>: <timeleft>"
                                             ,"-o", "<fc=#e5786d>Discharging</fc>: <timeleft>"
@@ -22,5 +22,5 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %disku% <fc=#a57ac4>|</fc> %wlo1wi% <fc=#a57ac4>|</fc> %battery% <fc=#a57ac4>|</fc> %gmail% <fc=#a57ac4>|</fc> %thermal0% <fc=#a57ac4>|</fc> %multicpu% <fc=#a57ac4>|</fc> %memory% <fc=#a57ac4>|</fc> <fc=#ffe161>%date%</fc> <fc=#a57ac4>|</fc> %KRIC% <fc=#a57ac4>|</fc> %locks%"
+       , template = "%StdinReader% }{ %disku% <fc=#a57ac4>|</fc> %wlo1wi% <fc=#a57ac4>|</fc> %battery% <fc=#a57ac4>|</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> %gmail% <fc=#a57ac4>|</fc> %thermal0% <fc=#a57ac4>|</fc> %multicpu% <fc=#a57ac4>|</fc> %memory% <fc=#a57ac4>|</fc> <fc=#ffe161>%date%</fc> <fc=#a57ac4>|</fc> %KRIC% <fc=#a57ac4>|</fc> %locks%"
        }
