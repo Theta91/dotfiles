@@ -7,7 +7,7 @@ separated by an '='. For example:
     xmonad.hs=/home/user/.xmonad/xmonad.hs
 The uncolorized files must be in the same directory as 'paths.txt'.
 
-This scripts assumes that you've set your colors as '*color0: #a-f0-9', i.e.
+This scripts assumes that you've set your colors as '*.color0: #a-f0-9', i.e.
 lowercase. It supports the standard 16 ANSI colors; bright colors are prefixed
 with 'b'. Complete list of values available for substitution:
     $fg $bg
