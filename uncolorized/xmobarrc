@@ -3,24 +3,24 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
        , fgColor = "$fg"
        , position = Static { xpos = 0, ypos = 0, width = 1920, height = 28 }
        , lowerOnStart = True
-       , commands = [ Run DiskU             [("/", "/ – <fc=$cyan><free></fc>"), ("/home", "/home - <fc=$cyan><free></fc>")] [] 10
-                    , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=$cyan><essid></fc>"] 20
+       , commands = [ Run DiskU             [("/", "<fc=$bblack>/</fc> <fc=$blue><free></fc>"), ("/home", "<fc=$bblack>/home</fc> <fc=$blue><free></fc>")] [] 10
+                    , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=$blue><essid></fc>"] 20
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus>","--"
                                             ,"-O", "<fc=$bgreen>Charging</fc> <fc=$green><timeleft></fc>"
                                             ,"-o", "<fc=$red>Discharging</fc> <fc=$red><timeleft></fc>"
                                             ,"-i", "<fc=$byellow>Full</fc>" ] 50
                     , Run Com "/home/voighta/bin/gmail.sh" [] "gmail" 1800
-                    , Run ThermalZone 0     ["-t", "<fc=$cyan><temp></fc>°C"] 30
-                    , Run MultiCpu          ["-t", "<fc=$cyan><total></fc>%"] 10
-                    , Run Memory            ["-t", "Mem <fc=$cyan><freeratio></fc>%"
-                                            ,"-L","20","--low","$red"] 10
-                    , Run Date "%a, %b %_d '%y – %H:%M:%S" "date" 10
-                    , Run Weather "KRIC"    ["-t","<fc=$cyan><skyCondition></fc> <tempF>°F","-L","60","-H","80"
-                                            ,"--normal","$green","--high","$red","--low","$cyan"] 7200
+                    , Run ThermalZone 0     ["-t", "<fc=$blue><temp>°C</fc>"] 30
+                    , Run MultiCpu          ["-t", "<fc=$blue><total>%</fc>"] 10
+                    , Run Memory            ["-t", "<fc=$bblack>Mem</fc> <fc=$blue><usedratio>%</fc>"
+                                            ,"-H","90","-h","$red"] 10
+                    , Run Date "%a, %b %_d '%y - %H:%M:%S" "date" 10
+                    , Run Weather "KRIC"    ["-t","<fc=$blue><skyCondition></fc> <tempF>","-L","60","-H","80"
+                                            ,"-n","$green","-h","$red","-l","$blue"] 7200
                     , Run Locks
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %disku% <fc=$bmagenta>|</fc> %wlo1wi% <fc=$bmagenta>|</fc> %battery% <fc=$bmagenta>|</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> <fc=$cyan>%gmail%</fc> <fc=$bmagenta>|</fc> Cpu %multicpu%, %thermal0% <fc=$bmagenta>|</fc> %memory% <fc=$bmagenta>|</fc> <fc=#ffe161>%date%</fc> <fc=$bmagenta>|</fc> %KRIC% <fc=$bmagenta>|</fc> %locks%"
+       , template = "%StdinReader% }{ %disku% <fc=$bblack>—</fc> %wlo1wi% <fc=$bblack>—</fc> %battery% <fc=$bblack>—</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> <fc=$blue>%gmail%</fc> <fc=$bblack>—</fc> <fc=$bblack>Cpu</fc> %multicpu% %thermal0% <fc=$bblack>—</fc> %memory% <fc=$bblack>|</fc> <fc=$yellow>%date%</fc> <fc=$bblack>—</fc> %KRIC% %locks%"
        }

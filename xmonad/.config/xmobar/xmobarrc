@@ -3,24 +3,24 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
        , fgColor = "#ffffff"
        , position = Static { xpos = 0, ypos = 0, width = 1920, height = 28 }
        , lowerOnStart = True
-       , commands = [ Run DiskU             [("/", "/ – <fc=#a8c6f2><free></fc>"), ("/home", "/home - <fc=#a8c6f2><free></fc>")] [] 10
-                    , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=#a8c6f2><essid></fc>"] 20
+       , commands = [ Run DiskU             [("/", "<fc=#857b6f>/</fc> <fc=#5283d7><free></fc>"), ("/home", "<fc=#857b6f>/home</fc> <fc=#5283d7><free></fc>")] [] 10
+                    , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=#5283d7><essid></fc>"] 20
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus>","--"
                                             ,"-O", "<fc=#161616reen>Charging</fc> <fc=#cae682><timeleft></fc>"
                                             ,"-o", "<fc=#e5786d>Discharging</fc> <fc=#e5786d><timeleft></fc>"
                                             ,"-i", "<fc=#ffc442>Full</fc>" ] 50
                     , Run Com "/home/voighta/bin/gmail.sh" [] "gmail" 1800
-                    , Run ThermalZone 0     ["-t", "<fc=#a8c6f2><temp></fc>°C"] 30
-                    , Run MultiCpu          ["-t", "<fc=#a8c6f2><total></fc>%"] 10
-                    , Run Memory            ["-t", "Mem <fc=#a8c6f2><freeratio></fc>%"
-                                            ,"-L","20","--low","#e5786d"] 10
-                    , Run Date "%a, %b %_d '%y – %H:%M:%S" "date" 10
-                    , Run Weather "KRIC"    ["-t","<fc=#a8c6f2><skyCondition></fc> <tempF>°F","-L","60","-H","80"
-                                            ,"--normal","#cae682","--high","#e5786d","--low","#a8c6f2"] 7200
+                    , Run ThermalZone 0     ["-t", "<fc=#5283d7><temp>°C</fc>"] 30
+                    , Run MultiCpu          ["-t", "<fc=#5283d7><total>%</fc>"] 10
+                    , Run Memory            ["-t", "<fc=#857b6f>Mem</fc> <fc=#5283d7><usedratio>%</fc>"
+                                            ,"-H","90","-h","#e5786d"] 10
+                    , Run Date "%a, %b %_d '%y - %H:%M:%S" "date" 10
+                    , Run Weather "KRIC"    ["-t","<fc=#5283d7><skyCondition></fc> <tempF>","-L","60","-H","80"
+                                            ,"-n","#cae682","-h","#e5786d","-l","#5283d7"] 7200
                     , Run Locks
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %disku% <fc=#a57ac4>|</fc> %wlo1wi% <fc=#a57ac4>|</fc> %battery% <fc=#a57ac4>|</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> <fc=#a8c6f2>%gmail%</fc> <fc=#a57ac4>|</fc> Cpu %multicpu%, %thermal0% <fc=#a57ac4>|</fc> %memory% <fc=#a57ac4>|</fc> <fc=#ffe161>%date%</fc> <fc=#a57ac4>|</fc> %KRIC% <fc=#a57ac4>|</fc> %locks%"
+       , template = "%StdinReader% }{ %disku% <fc=#857b6f>—</fc> %wlo1wi% <fc=#857b6f>—</fc> %battery% <fc=#857b6f>—</fc> <icon=/home/voighta/.xmonad/xbm/mail1.xbm/> <fc=#5283d7>%gmail%</fc> <fc=#857b6f>—</fc> <fc=#857b6f>Cpu</fc> %multicpu% %thermal0% <fc=#857b6f>—</fc> %memory% <fc=#857b6f>|</fc> <fc=#ffe161>%date%</fc> <fc=#857b6f>—</fc> %KRIC% %locks%"
        }
