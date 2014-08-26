@@ -26,6 +26,10 @@ URxvt*perl-ext-common: default,matcher
 URxvt*url-launcher:    /usr/bin/xdg-open
 URxvt*matcher*button:  1
 
+! Transparency or something
+URxvt*depth: 32
+URxvt*background: [20]#161616
+
 !-------------------------------------------------------------------------------
 ! Specifies the terminal type name to be set in the TERM environment variable; option -tn.
 ! URxvt*termName: termname
