@@ -6,8 +6,8 @@ Config { font = "xft:Source Code Pro:size=10:antialias=true"
        , commands = [ Run DiskU             [("/", "/ – <fc=#a8c6f2><free></fc>"), ("/home", "/home - <fc=#a8c6f2><free></fc>")] [] 10
                     , Run Wireless "wlo1"   ["-t", "<icon=/home/voighta/.xmonad/xbm/wireless1.xbm/> <fc=#a8c6f2><essid></fc>"] 20
                     , Run BatteryP ["BAT0"] ["-t", "<acstatus>","--"
-                                            ,"-O", "<fc=#161616reen>Charging</fc> <fc=#a8c6f2><timeleft></fc>"
-                                            ,"-o", "<fc=#9d2a3a>Discharging</fc> <fc=#e5786d><timeleft></fc>"
+                                            ,"-O", "<fc=#161616reen>Charging</fc> <fc=#cae682><timeleft></fc>"
+                                            ,"-o", "<fc=#e5786d>Discharging</fc> <fc=#e5786d><timeleft></fc>"
                                             ,"-i", "<fc=#ffc442>Full</fc>" ] 50
                     , Run Com "/home/voighta/bin/gmail.sh" [] "gmail" 1800
                     , Run ThermalZone 0     ["-t", "<fc=#a8c6f2><temp></fc>°C"] 30
