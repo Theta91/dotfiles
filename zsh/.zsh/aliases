@@ -13,7 +13,6 @@ alias pacman='sudo pacman'
 alias wget='wget -c'
 alias dirs='dirs -v'
 alias diff='colordiff'
-alias mount='mount | column -t'
 alias youtube-dl='youtube-dl -o "%(title)s.%(ext)s"'
 
 # Shortcuts for common commands
