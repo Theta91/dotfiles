@@ -9,6 +9,8 @@ fi
 
 # Path stuff
 PATH=$HOME/bin:$HOME/.cabal/bin:$PATH
+xset +fp /usr/share/fonts/misc
+xset fp rehash
 
 # Various X settings
 xsetroot -cursor_name left_ptr
