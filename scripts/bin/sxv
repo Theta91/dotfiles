@@ -9,7 +9,7 @@ from sys import argv
 from subprocess import Popen
 
 dirname, basename = path.split(argv[1])
-images = [f for f in listdir(dirname) if search(r'.*.(png|jpg|jpeg|gif)$', f)]
+images = [f for f in listdir(dirname) if search(r'.*.(png|jpg|jpeg|jpe|gif)$', f)]
 
 images.sort(key=str.lower)
 count = str(images.index(basename) + 1)
