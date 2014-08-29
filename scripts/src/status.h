@@ -21,7 +21,7 @@
 /* String Lengths */
 #define _BAT_LEN     17
 #define _IW_LEN      37
-#define _DATE_LEN    200
+#define _DATE_LEN    24
 #define _FREE_LEN    40
 #define ESSID_LEN    33
 #define WEATHER_LEN  30
