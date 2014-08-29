@@ -120,7 +120,7 @@ void fmt_date(void) {
 
 char *free_disk_space(const char *path) {
     struct statvfs vfs;
-    static char _free[_FREE_LEN];
+    static char fmt_free[_FREE_LEN];
     static const char *unit[] = { "B", "K", "M", "G" };
     double free;
     int exp = 0;
@@ -134,8 +134,8 @@ char *free_disk_space(const char *path) {
     exp = (int) log(free) / log(1024);
     free /= pow(1024, exp);
 
-    snprintf(_free, _FREE_LEN, "%s: %.1lf%s", path, free, unit[exp]);
-    return _free;
+    snprintf(fmt_free, _FREE_LEN, "%s: %.1lf%s", path, free, unit[exp]);
+    return fmt_free;
 }
 
 void wireless(int sockfd, struct iwreq wreq, struct iw_statistics wstats) {
