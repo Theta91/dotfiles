@@ -59,9 +59,6 @@ int main(void) {
     }
 
     cleanup(sockfd);
-
-//sprintf("%s\n", *battery());
-//strcat(&status[0],hrs,mins);
 }
 
 double _battery_stats(const char *path) {
