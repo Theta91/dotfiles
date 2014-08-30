@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 TARGET := status
 SOURCES := status.c
 OBJECTS := $(SOURCES:.c=.o)
@@ -7,7 +7,7 @@ OBJECTS := $(SOURCES:.c=.o)
            -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
            -Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
            -Wuninitialized -Wconversion -Wstrict-prototypes
-CFLAGS := -std=c99 -g $(WARNINGS)
+CFLAGS := -std=c99 -ggdb $(WARNINGS)
 LFLAGS := -lm
 
 DEBUG  := -ggdb
@@ -17,7 +17,7 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CC) $(LFLAGS) $(OBJECTS) -o $@
 
-%.o: %.c
+%.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

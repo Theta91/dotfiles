@@ -1,21 +1,19 @@
 #define _XOPEN_SOURCE 500
 #define _GNU_SOURCE
-
-/* Wireless */
+/* wireless */
 #include <sys/socket.h>     /* must be before <linux/wireless.h> */
 #include <sys/ioctl.h>
 #include <linux/wireless.h>
 #include <unistd.h>
-
-/* Date & sleep */
+/* fmt_date, obviously, and nanosleep */
 #include <time.h>
-
-/* Battery */
+/* fmod (battery) & pow (free_disk_space) */
 #include <math.h>
-
-/* Free disk space */
+/* free_disk_space */
 #include <sys/statvfs.h>
-
+/* mem stuff */
+#include <sys/sysinfo.h>
+/* standard stuff */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -24,40 +22,38 @@
 #include "status.h"
 
 double _battery_stats(const char *path);
-static char _battery[_BAT_LEN], _iw[_IW_LEN], _date[_DATE_LEN],
-            _root[_FREE_LEN], _home[_FREE_LEN];
+static char _battery[_BAT_LEN], _cpu[_CPU_LEN], _date[_DATE_LEN], _iw[_IW_LEN],
+            _mem[_MEM_LEN],_root[_FREE_LEN], _home[_FREE_LEN];
+
 int main(void) {
-    char *status;
+    char *status = malloc(200);
     int m, n;
-    m = _BATTERY_INTERVAL + 1;
+    m = BATTERY_INTERVAL;
 
     struct timespec interval = {
-        .tv_sec  = _UPDATE_INTERVAL,
+        .tv_sec  = UPDATE_INTERVAL,
         .tv_nsec = 0
     };
+    int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
-    int sockfd;
-    struct iw_statistics wstats;
-    struct iwreq wreq = {
-        .ifr_name = IW_NAME
-    };
-    if((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) != -1){
-        for( ; ; nanosleep(&interval, NULL)) {
-            if(++m > _BATTERY_INTERVAL) {
-                battery();
-                m = 0;
-            }
-            wireless(sockfd, wreq, wstats);
-            strncpy(_root, free_disk_space("/"), _FREE_LEN);
-            strncpy(_home, free_disk_space("/home"), _FREE_LEN);
-            fmt_date();
-            snprintf(status, 200, "%s %s | %s | %s | %s", _root, _home, _iw, _battery, _date);
-            printf("%s\n", status);
-
-    //        break;
+    for( ; ; nanosleep(&interval, NULL)) {
+        if(++m > BATTERY_INTERVAL) {
+            battery();
+            m = 0;
         }
-    }
+        if(sockfd != -1)
+            wireless(sockfd);
+        strncpy(_root, free_disk_space("/"), _FREE_LEN);
+        strncpy(_home, free_disk_space("/home"), _FREE_LEN);
+        fmt_date();
+        cpu();
+        memory();
+        snprintf(status, 200, "%s %s | %s | %s | %s | %s | %s", _root, _home, _iw, _battery, _cpu, _mem, _date);
+        printf("%s\n", status);
 
+//        break;
+    }
+    free(status);
     cleanup(sockfd);
 }
 
@@ -76,13 +72,15 @@ double _battery_stats(const char *path) {
 void battery(void) {
     FILE *fd;
     char status;
-    double full, now, uamps,
-           hours, mins;
+    double full, now, uamps, hours, mins;
 
-    if((fd = fopen(BAT_STATUS, "r")) == NULL)
+    if((fd = fopen(BAT_STATUS, "r")) == NULL) {
         status = 'X';
-    status = (char)fgetc(fd);
-    fclose(fd);
+    }
+    else {
+        status = (char)fgetc(fd);
+        fclose(fd);
+    }
 
     if((status == 'C') || (status == 'D')) {
         now = _battery_stats(BAT_NOW);
@@ -107,16 +105,37 @@ void battery(void) {
     }
 }
 
+void cpu(void) {
+    FILE *lfd, *tfd;
+    static unsigned long old_user, old_nice, old_system, old_idle;
+    int work, total, temp;
+    unsigned long user, nice, system, idle;
+
+    if((lfd = fopen(LOAD_PATH, "r")) == NULL)
+        return;
+    fscanf(lfd, "cpu %lu %lu %lu %lu", &user, &nice, &system, &idle);
+    work = (int)(user - old_user) + (nice - old_nice) + (system - old_system);
+    total = (int)work + (idle - old_idle);
+
+    old_user = user;
+    old_nice = nice;
+    old_system = system;
+    old_idle = idle;
+
+    if((tfd = fopen(TEMP_PATH, "r")) == NULL)
+        return;
+    fscanf(tfd, "%d", &temp);
+
+    snprintf(_cpu, _CPU_LEN, _CPU_FMT, 100 * work / total, temp / 1000);
+}
+
 void fmt_date(void) {
     time_t now = time(NULL);
-    setenv("TZ", "EST5EDT4", 1);
-
-    tzset();
     strftime(_date, _DATE_LEN, _DATE_FMT, localtime(&now));
 }
 
 char *free_disk_space(const char *path) {
-    struct statvfs vfs;
+    static struct statvfs vfs;
     static char _free[_FREE_LEN];
     static const char *unit[] = { "B", "K", "M", "G" };
     double free;
@@ -131,32 +150,45 @@ char *free_disk_space(const char *path) {
     exp = (int) log(free) / log(1024);
     free /= pow(1024, exp);
 
-    snprintf(_free, _FREE_LEN, "%s: %.1lf%s", path, free, unit[exp]);
+    snprintf(_free, _FREE_LEN, _FREE_FMT, path, free, unit[exp]);
     return _free;
 }
 
-void wireless(int sockfd, struct iwreq wreq, struct iw_statistics wstats) {
+void memory(void) {
+    static struct sysinfo info;
+    sysinfo(&info);
+    snprintf(_mem, _MEM_LEN, _MEM_FMT, (int)(100 * info.freeram / info.totalram));
+
+}
+
+void wireless(int sockfd) {
     FILE *fd;
     char state[5];
     static char essid[ESSID_LEN];
-    int qual;
+    static int qual = 100;
+
+    static struct iw_statistics wstats;
+    static struct iwreq wreq = {
+        .ifr_name = IW_NAME
+    };
 
     if((fd = fopen(IW_PATH, "r")) == NULL)
-        return "N/A";
+        return;
     fscanf(fd, "%s", state);
     fclose(fd);
     if(strncmp(state, "up", 2) != 0)
-        return "N/A";
+        return;
 
     wreq.u.data.pointer = &wstats;
     wreq.u.data.length  = sizeof(wstats);
-    qual = (ioctl(sockfd, SIOCGIWSTATS, &wreq) == -1) ? 0 : (wstats.qual.qual * 100) / 70;
+    qual = (ioctl(sockfd, SIOCGIWSTATS, &wreq) == -1) ?
+        0 : (int)((float)(qual * 2 / 3) + (float)(100 * wstats.qual.qual / 210));
 
     wreq.u.data.pointer = &essid;
     wreq.u.data.length  = sizeof(essid);
     ioctl(sockfd, SIOCGIWESSID, &wreq);
 
-    snprintf(_iw, _IW_LEN, "%d %s", qual, essid);
+    snprintf(_iw, _IW_LEN, _IW_FMT, qual, essid);
 }
 
 void cleanup(int sockfd) {
