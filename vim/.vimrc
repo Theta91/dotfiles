@@ -104,15 +104,14 @@
   nnoremap <tab> %
   vnoremap <tab> %
   nnoremap ; :
-  inoremap jj <ESC>
   nnoremap <leader>w <C-w>v<C-w>l
   nnoremap <C-h> <C-w>h
   nnoremap <C-j> <C-w>j
   nnoremap <C-k> <C-w>k
   nnoremap <C-l> <C-w>l
   set hlsearch          " highlight search terms
-  set tabstop=2         " how many spaces to insert for a tab
-  set shiftwidth=2      " auto-indent amount when using cindent, >>, <<, etc.
-  set softtabstop=2     " how many spaces to insert for a tab
+  set tabstop=4         " how many spaces to insert for a tab
+  set shiftwidth=4      " auto-indent amount when using cindent, >>, <<, etc.
+  set softtabstop=4     " how many spaces to insert for a tab
   set expandtab         " automatically expands tabs to space
   set autoindent
