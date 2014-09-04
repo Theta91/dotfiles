@@ -1,5 +1,5 @@
-#define _XOPEN_SOURCE 500
-#define _GNU_SOURCE
+#define _XOPEN_SOURCE 700
+#define _GNU_SOURCE 1
 /* wireless */
 #include <sys/socket.h>     /* must be before <linux/wireless.h> */
 #include <sys/ioctl.h>
@@ -11,7 +11,8 @@
 #include <math.h>
 /* free_disk_space */
 #include <sys/statvfs.h>
-/* mem stuff */
+#include <fcntl.h>
+/* memory stuff */
 #include <sys/sysinfo.h>
 /* standard stuff */
 #include <stdlib.h>
@@ -23,12 +24,13 @@
 
 double _battery_stats(const char *path);
 static char _battery[_BAT_LEN], _cpu[_CPU_LEN], _date[_DATE_LEN], _iw[_IW_LEN],
-            _mem[_MEM_LEN],_root[_FREE_LEN], _home[_FREE_LEN];
+            _mem[_MEM_LEN],_root[_FREE_LEN], _home[_FREE_LEN], _mail[_MAIL_LEN];
 
 int main(void) {
     char *status = malloc(200);
-    int m, n;
-    m = BATTERY_INTERVAL;
+    int b, m;
+    b = BATTERY_INTERVAL;
+    m = MAIL_INTERVAL;
 
     struct timespec interval = {
         .tv_sec  = UPDATE_INTERVAL,
@@ -37,10 +39,14 @@ int main(void) {
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
     for( ; ; nanosleep(&interval, NULL)) {
-        if(++m > BATTERY_INTERVAL) {
+        if(++b > BATTERY_INTERVAL) {
             battery();
-            m = 0;
+            b = 0;
         }
+        /*if(++m > MAIL_INTERVAL) {
+            mail();
+            m = 0;
+        }*/
         if(sockfd != -1)
             wireless(sockfd);
         strncpy(_root, free_disk_space("/"), _FREE_LEN);
@@ -48,7 +54,7 @@ int main(void) {
         fmt_date();
         cpu();
         memory();
-        snprintf(status, 200, "%s %s | %s | %s | %s | %s | %s", _root, _home, _iw, _battery, _cpu, _mem, _date);
+        snprintf(status, 200, "%s %s | %s | %s | %s | %s | %s | %s", _root, _home, _iw, _battery, _mail, _cpu, _mem, _date);
         printf("%s\n", status);
 
 //        break;
@@ -107,20 +113,20 @@ void battery(void) {
 
 void cpu(void) {
     FILE *lfd, *tfd;
-    static unsigned long old_user, old_nice, old_system, old_idle;
+    static unsigned long ouser, onice, osystem, oidle;
     int work, total, temp;
     unsigned long user, nice, system, idle;
 
     if((lfd = fopen(LOAD_PATH, "r")) == NULL)
         return;
     fscanf(lfd, "cpu %lu %lu %lu %lu", &user, &nice, &system, &idle);
-    work = (int)(user - old_user) + (nice - old_nice) + (system - old_system);
-    total = (int)work + (idle - old_idle);
+    work = (int)((user - ouser) + (nice - onice) + (system - osystem));
+    total = (int)(work + (idle - oidle));
 
-    old_user = user;
-    old_nice = nice;
-    old_system = system;
-    old_idle = idle;
+    ouser = user;
+    onice = nice;
+    osystem = system;
+    oidle = idle;
 
     if((tfd = fopen(TEMP_PATH, "r")) == NULL)
         return;
@@ -154,11 +160,30 @@ char *free_disk_space(const char *path) {
     return _free;
 }
 
+void mail(void) {
+    FILE *fp = popen("/home/voighta/bin/gmail.py", "r");
+    int fd = fileno(fp);
+    char *unread = NULL;
+    size_t length = 3;
+    ssize_t read;
+    fcntl(fd, F_SETFL, O_NONBLOCK);
+
+    if((read = getline(&unread, &length, fp)) == -1) {
+        return;
+    }
+    else if(read > 0) {
+        snprintf(_mail, _MAIL_LEN, _MAIL_FMT, unread);
+    }
+    else {
+        free(unread);
+        pclose(fp);
+    }
+}
+
 void memory(void) {
     static struct sysinfo info;
     sysinfo(&info);
     snprintf(_mem, _MEM_LEN, _MEM_FMT, (int)(100 * info.freeram / info.totalram));
-
 }
 
 void wireless(int sockfd) {
