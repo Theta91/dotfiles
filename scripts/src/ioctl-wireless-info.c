@@ -16,9 +16,7 @@ int main(void) {
     struct iw_statistics wstats;
     /* wreq contains the union 'u.data'. We'll set its .pointer & .length anew
      * for every ioctl call. */
-    struct iwreq wreq = {
-        .ifr_name = IWNAME,
-    };
+    struct iwreq wreq = { .ifr_name = IWNAME };
 
     /* AF_INET - IP domain/address family. SOCK_DGRAM - datagram socket */
     if((sock = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
