@@ -6,6 +6,7 @@
 #define IW_NAME      "wlo1"
 #define IW_PATH      "/sys/class/net/wlo1/operstate"
 #define LOAD_PATH    "/proc/stat"
+#define MAIL_PATH    "$HOME/bin/gmail.sh"
 #define TEMP_PATH    "/sys/devices/virtual/thermal/thermal_zone0/temp"
 
 /* Formats */

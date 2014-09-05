@@ -184,7 +184,7 @@ void print_iw(int sockfd) {
     snprintf(_iw, _IW_LEN, _IW_FMT, state); }
 
 FILE *mail_init(void) {
-    FILE *fp = popen("/home/voighta/bin/gmail.sh", "r");
+    FILE *fp = popen(MAIL_PATH, "r");
     int fd = fileno(fp);
     fcntl(fd, F_SETFL, O_NONBLOCK);
 
