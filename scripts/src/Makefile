@@ -7,12 +7,20 @@ OBJECTS := $(SOURCES:.c=.o)
            -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
            -Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
            -Wuninitialized -Wconversion -Wstrict-prototypes
-CFLAGS := -std=c99 -ggdb $(WARNINGS)
+CFLAGS := -std=c99 $(WARNINGS)
 LFLAGS := -lm
 
 DEBUG  := -ggdb
+GPROF  := -pg
 
 all: $(TARGET)
+
+debug: CFLAGS += $(DEBUG)
+debug: $(TARGET)
+
+gprof: CFLAGS += $(GPROF)
+gprof: LFLAGS += $(GPROF)
+gprof: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(LFLAGS) $(OBJECTS) -o $@
